@@ -28,46 +28,65 @@
         </article>
         {{/hasErrors}}
         {{#skills}}
-            <h2 class="title is-5">
+            <h2 class="title is-5" id="{{id}}">
                 {{id}}: {{strings.name}}
                 <a href="https://maplestory.fandom.com/wiki/{{strings.name}}" target="_blank">
                     <button class="button is-link is-light is-small">Wiki page</button>
                 </a>
             </h2>
             <div class="columns">
-                <div class="column is-3">
-                    <h2 class="title is-5">Attributes</h5>
+                <div class="column is-6">
+                    <div class="columns is-full">
+                        <div class="column is-6">
+                            <h2 class="title is-6">Attributes</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Attr</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#attrTable}}
+                                        <tr>
+                                            <td>{{0}}</td><td>{{1}}</td>
+                                        </tr>
+                                    {{/attrTable}}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="column is-6">
+                            <h2 class="title is-6">Info</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Info</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#infoTable}}
+                                        <tr>
+                                            <td>{{0}}</td><td>{{1}}</td>
+                                        </tr>
+                                    {{/infoTable}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Attr</th>
+                                <th>String</th>
                                 <th>Value</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{#attrTable}}
+                            {{#strTable}}
                                 <tr>
                                     <td>{{0}}</td><td>{{1}}</td>
                                 </tr>
-                            {{/attrTable}}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="column is-3">
-                    <h2 class="title is-5">Info</h5>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Info</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#infoTable}}
-                                <tr>
-                                    <td>{{0}}</td><td>{{1}}</td>
-                                </tr>
-                            {{/infoTable}}
+                            {{/strTable}}
                         </tbody>
                     </table>
                 </div>
@@ -114,6 +133,7 @@
                 const skillDetails = gen.getAll(skill);
                 skillDetails.infoTable = Object.entries(skillDetails.info);
                 skillDetails.attrTable = Object.entries(skillDetails.attributes);
+                skillDetails.strTable = Object.entries(skillDetails.parsedStrings || {});
                 data.push(skillDetails);
             }
             catch (e) {

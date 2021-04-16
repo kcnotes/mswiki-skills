@@ -5,6 +5,7 @@
 #sidebar {
     max-height: 90vh;
     overflow-y: scroll;
-    position: sticky;
-    top: 0;
+}
+table {
+    font-size: 12px;
 }
