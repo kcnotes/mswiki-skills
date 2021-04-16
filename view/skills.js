@@ -16,6 +16,17 @@
         </aside>`;
 
     tp.main = `
+        {{#hasErrors}}
+        <article class="message is-danger">
+            <div class="message-body">
+                <ul>
+                    {{#errors}}
+                    <li>{{.}}</li>
+                    {{/errors}}
+                </ul>
+            </div>
+        </article>
+        {{/hasErrors}}
         {{#skills}}
             <h2 class="title is-5">
                 {{id}}: {{strings.name}}
@@ -64,7 +75,6 @@
                     <textarea class="textarea is-small" onclick="this.select()" rows="14">{{wikitable}}</textarea>
                 </div>
             </div>
-            
         {{/skills}}
     `;
 
@@ -90,14 +100,31 @@
         const main = document.getElementById('main');
 
         let data = [];
-        for (const skill of gen.getSkillsForGroup(skillData, group)) {
-            const skillDetails = gen.getAll(skill);
-            skillDetails.infoTable = Object.entries(skillDetails.info);
-            skillDetails.attrTable = Object.entries(skillDetails.attributes);
-            data.push(skillDetails);
+        let errors = [];
+        let skillsInGroup = gen.getSkillsForGroup(skillData, group);
+        if (!skillsInGroup) {
+            main.innerHTML = Mustache.render(tp.main, {
+                skills: [],
+                errors: ['Could not load any skills.'],
+                hasErrors: true
+            });
+        }
+        for (const skill of skillsInGroup) {
+            try {
+                const skillDetails = gen.getAll(skill);
+                skillDetails.infoTable = Object.entries(skillDetails.info);
+                skillDetails.attrTable = Object.entries(skillDetails.attributes);
+                data.push(skillDetails);
+            }
+            catch (e) {
+                errors.push(`Could not load skill ${gen.getId(skill)}: ${e.toString()}`);
+                console.error(e);
+            }
         }
         main.innerHTML = Mustache.render(tp.main, {
-            skills: data
+            skills: data,
+            errors,
+            hasErrors: errors.length > 0
         });
     };
 
@@ -107,7 +134,6 @@
         var fr = new FileReader();
         fr.readAsText(file);
         fr.onload = () => {
-            console.log(JSON.parse(fr.result));
             skillData = JSON.parse(fr.result);
             renderSidebar(skillData);
         };

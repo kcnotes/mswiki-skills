@@ -1,3 +1,8 @@
 #upload {
     display: block;
 }
+
+#sidebar {
+    max-height: 80vh;
+    overflow-y: scroll;
+}

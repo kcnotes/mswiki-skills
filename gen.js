@@ -120,6 +120,7 @@ gen.parseStrings = (attributes, strings) => {
 };
 
 gen.getTable = (id, attributes, strings, info) => {
+    if (!strings) return '';
     return `<!--${Number(id).toString()}-->
 |-|GMS v221=
 {{#invoke:LuaSkillTable|create
