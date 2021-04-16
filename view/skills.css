@@ -3,6 +3,8 @@
 }
 
 #sidebar {
-    max-height: 80vh;
+    max-height: 90vh;
     overflow-y: scroll;
+    position: sticky;
+    top: 0;
 }
