@@ -119,6 +119,18 @@ gen.parseStrings = (attributes, strings) => {
     };
 };
 
+gen.getElemAttrMap = (elemAttr) => {
+    switch (elemAttr) {
+        case 'i': return 'Ice';
+        case 'f': return 'Fire';
+        case 'd': return 'Dark';
+        case 'l': return 'Lightning';
+        case 's': return 'Poison';
+        case 'h': return 'Holy';
+        default: return '';
+    }
+}
+
 gen.getTable = (id, attributes, strings, info) => {
     if (!strings) return '';
     return `<!--${Number(id).toString()}-->
@@ -127,7 +139,7 @@ gen.getTable = (id, attributes, strings, info) => {
 |skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
 |skillClass=
 |skillType=${(Number(id).toString().slice(-4, -3) == '1') ? 'Active' : 'Passive'}
-|elementAttribute=
+|elementAttribute=${gen.getElemAttrMap(info?.elemAttr)}
 |levelRequirement=${info.reqLev || ''}
 |animalSPRequirement=
 |maxLevel=${attributes.maxLevel}
