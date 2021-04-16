@@ -1,0 +1,18 @@
+{
+  "name": "mswiki-skills",
+  "version": "1.0.0",
+  "description": "You will need node.js installed and configured in your preferred terminal.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-progress": "^3.9.0",
+    "saxon-js": "^2.1.0",
+    "xml-js": "^1.6.11",
+    "xslt3": "^2.1.0"
+  }
+}

@@ -1,0 +1,186 @@
+let gen = {};
+
+gen.getAttributes = (skill) => {
+    let attributes = {};
+    for (const type of Object.keys(skill.attr)) {
+        if (type === 'vector') {
+            continue;
+        }
+        const skillAttrs = skill.attr[type];
+        if (Array.isArray(skillAttrs)) {
+            const subAttributes = skillAttrs.reduce((obj, item) => {
+                obj[item._attributes.name] = item._attributes.value;
+                return obj;
+            }, {});
+            attributes = { ...attributes, ...subAttributes };
+        } else if (skillAttrs._attributes) {
+            attributes = { ...attributes, [skillAttrs._attributes.name]: skillAttrs._attributes.value };
+        }
+    }
+    return attributes;
+};
+
+gen.getStrings = (skill) => {
+    let attributes = {};
+    for (const type of Object.keys(skill.strings)) {
+        const skillAttrs = skill.strings[type];
+        if (Array.isArray(skillAttrs)) {
+            const subAttributes = skillAttrs.reduce((obj, item) => {
+                obj[item._attributes.name] = item._attributes.value;
+                return obj;
+            }, {});
+            attributes = { ...attributes, ...subAttributes };
+        } else if (skillAttrs._attributes) {
+            attributes = { ...attributes, [skillAttrs._attributes.name]: skillAttrs._attributes.value };
+        }
+    }
+    return attributes;
+};
+
+gen.getInfo = (skill) => {
+    let attributes = {};
+    for (const type of Object.keys(skill.info)) {
+        if (type === 'vector') {
+            continue;
+        }
+        const skillAttrs = skill.info[type];
+        if (Array.isArray(skillAttrs)) {
+            const subAttributes = skillAttrs.reduce((obj, item) => {
+                obj[item._attributes.name] = item._attributes.value;
+                return obj;
+            }, {});
+            attributes = { ...attributes, ...subAttributes };
+        } else if (skillAttrs._attributes) {
+            attributes = { ...attributes, [skillAttrs._attributes.name]: skillAttrs._attributes.value };
+        }
+    }
+    for (const type of Object.keys(skill)) {
+        if (!['int', 'string'].includes(type)) {
+            continue;
+        }
+        const skillAttrs = skill[type];
+        if (Array.isArray(skillAttrs)) {
+            const subAttributes = skillAttrs.reduce((obj, item) => {
+                obj[item._attributes.name] = item._attributes.value;
+                return obj;
+            }, {});
+            attributes = { ...attributes, ...subAttributes };
+        } else if (skillAttrs._attributes) {
+            attributes = { ...attributes, [skillAttrs._attributes.name]: skillAttrs._attributes.value };
+        }
+    }
+    return attributes;
+};
+
+gen.getId = (skill) => {
+    return skill.id._text;
+};
+
+gen.parseStrings = (attributes, strings) => {
+    let newStrings = Object.assign({}, strings);
+    let formulah = strings.h || strings.h1;
+    if (!strings.h && !strings.h1) {
+        return null;
+    }
+    Object.entries(attributes).reverse().forEach((item) => {
+        const key = item[0];
+        const value = item[1];
+        if ((/^\d+$/g).test(value)) {
+            formulah = formulah.replace(new RegExp(`#${key}`, 'g'), `${value}`);
+        } else {
+            formulah = formulah.replace(new RegExp(`#${key}`, 'g'), `{#expr:${value}}`);
+            formulah = formulah.replace(/u\(/g, 'ceil(');
+            formulah = formulah.replace(/d\(/g, 'floor(');
+        }
+    });
+
+    Object.keys(attributes).reverse().forEach((key) => {
+        if (newStrings.h)
+            newStrings.h = newStrings.h.replace(new RegExp(`#${key}`, 'g'), `#\\${key}`);
+    });
+
+    Object.keys(newStrings).forEach(id => {
+        newStrings[id] = newStrings[id].replace(/\\r\\n/g, '<br /><br />');
+        newStrings[id] = newStrings[id].replace(/\\n/g, '<br />');
+        newStrings[id] = newStrings[id].replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
+        newStrings[id] = newStrings[id].replace(/-{/g, '&#45;{');
+        newStrings[id] = newStrings[id].replace(/#\\/g, '#');
+        newStrings[id] = newStrings[id].replace(/#$/g, '');
+    })
+    formulah = formulah.replace(/\\r\\n/g, '<br /><br />');
+    formulah = formulah.replace(/\\n/g, '<br />');
+    formulah = formulah.replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
+    formulah = formulah.replace(/-{/g, '&#45;{');
+    formulah = formulah.replace(/#\\/g, '#');
+    formulah = formulah.replace(/#$/g, '');
+
+    return {
+        ...newStrings, formulah
+    };
+};
+
+gen.getTable = (id, attributes, strings, info) => {
+    return `<!--${Number(id).toString()}-->
+|-|GMS v221=
+{{#invoke:LuaSkillTable|create
+|skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
+|skillClass=
+|skillType=${(Number(id).toString().slice(-4, -3) == '1') ? 'Active' : 'Passive'}
+|elementAttribute=
+|levelRequirement=${info.reqLev || ''}
+|animalSPRequirement=
+|maxLevel=${attributes.maxLevel}
+|combatOrders=${info.combatOrders || ''}
+|vSkill=
+|bgm=
+|description=${strings.desc}
+|readout=${strings.h}
+|formula=${strings.formulah}
+}}`;
+};
+
+gen.findSkillById = (data, skillId) => {
+    const keys = Object.keys(data);
+    const groups = [skillId.slice(0, 3), skillId.slice(0, 4), skillId.slice(0, 5)];
+    for (const group of groups) {
+        if (keys.includes(group)) {
+            let found = data[group].skills.skill.filter(skill => skill.id._text == skillId);
+            if (found.length > 0) {
+                return found[0];
+            }
+        }
+    }
+    return null;
+};
+
+gen.getSkillGroups = (data) => {
+    return Object.keys(data);
+};
+
+gen.getSkillsForGroup = (data, group) => {
+    return data[group].skills.skill;
+};
+
+gen.getAll = (skill) => {
+    const attributes = gen.getAttributes(skill);
+    const info = gen.getInfo(skill);
+    const id = gen.getId(skill);
+    const strings = gen.getStrings(skill);
+    const parsedStrings = gen.parseStrings(attributes, strings);
+    return {
+        attributes,
+        info,
+        id,
+        strings,
+        parsedStrings,
+        wikitable: gen.getTable(id, attributes, parsedStrings, info)
+    };
+}
+
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = gen;
+  }
+} else {
+  window['gen'] = gen;
+}

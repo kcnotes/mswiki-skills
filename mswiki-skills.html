@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mswiki Skills</title>
+    <link rel="stylesheet" href="./view/skills.css" />
+    <link rel="stylesheet" href="./view/bulma.min.css" />
+</head>
+<body>
+    <section class="hero is-small is-light">
+        <div class="hero-body">
+            <p class="title">
+                mswiki: skills
+            </p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-widescreen">
+            <span class="file" id="upload">
+                <label class="file-label">
+                    <input id="skill-file-upload" class="file-input" type="file" name="resume">
+                    <span class="file-cta">
+                        <span class="file-label">
+                            Upload all.json
+                        </span>
+                    </span>
+                </label>
+            </span>
+            <hr/>
+        </div>
+        <div class="container is-widescreen">
+            <div class="columns">
+                <div class="column is-3" id="sidebar">
+                </div>
+                <div class="column" id="main">
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="./gen.js"></script>
+<script src="./view/mustache.js"></script>
+<script src="./view/skills.js"></script>
+</html>
