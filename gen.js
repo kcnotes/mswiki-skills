@@ -102,6 +102,8 @@ gen.parseStrings = (attributes, strings) => {
     Object.keys(newStrings).forEach(id => {
         newStrings[id] = newStrings[id].replace(/\\r\\n/g, '<br /><br />');
         newStrings[id] = newStrings[id].replace(/\\n/g, '<br />');
+        // Run font colour change twice due to extra catches
+        newStrings[id] = newStrings[id].replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
         newStrings[id] = newStrings[id].replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
         newStrings[id] = newStrings[id].replace(/-{/g, '&#45;{');
         newStrings[id] = newStrings[id].replace(/#\\/g, '#');
@@ -109,6 +111,8 @@ gen.parseStrings = (attributes, strings) => {
     })
     formulah = formulah.replace(/\\r\\n/g, '<br /><br />');
     formulah = formulah.replace(/\\n/g, '<br />');
+    // Run font colour change twice due to extra catches
+    formulah = formulah.replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
     formulah = formulah.replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
     formulah = formulah.replace(/-{/g, '&#45;{');
     formulah = formulah.replace(/#\\/g, '#');
