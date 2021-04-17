@@ -135,14 +135,14 @@ gen.getElemAttrMap = (elemAttr) => {
     }
 }
 
-gen.getTable = (id, attributes, strings, info) => {
+gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
     if (!strings) return '';
     return `<!--${Number(id).toString()}-->
 <tabber>
 |-|GMS v221=
 {{#invoke:LuaSkillTable|create
 |skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
-|skillClass=
+|skillClass=${injectedSkillClass || ''}
 |skillType=${(Number(id).toString().slice(-4, -3) == '1') ? 'Active' : 'Passive'}
 |elementAttribute=${gen.getElemAttrMap(info?.elemAttr)}
 |levelRequirement=${info.reqLev || ''}
@@ -179,7 +179,7 @@ gen.getSkillsForGroup = (data, group) => {
     return data[group].skills.skill;
 };
 
-gen.getAll = (skill) => {
+gen.getAll = (skill, injectedSkillClass) => {
     const attributes = gen.getAttributes(skill);
     const info = gen.getInfo(skill);
     const id = gen.getId(skill);
@@ -191,7 +191,7 @@ gen.getAll = (skill) => {
         id,
         strings,
         parsedStrings,
-        wikitable: gen.getTable(id, attributes, parsedStrings, info)
+        wikitable: gen.getTable(id, attributes, parsedStrings, info, injectedSkillClass)
     };
 }
 

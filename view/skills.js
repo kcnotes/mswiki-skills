@@ -98,6 +98,8 @@
     `;
 
     let skillData;
+    let injectedSkillName = '';
+    let currentGroup = null;
 
     const renderSidebar = () => {
         const sidebar = document.getElementById('sidebar');
@@ -109,13 +111,22 @@
             let anchor = anchors[i];
             if ((/\bgroup-item\b/g).test(anchor.className)) {
                 anchor.onclick = function() {
-                    renderContent(anchor.getAttribute('data-groupid'));
+                    currentGroup = anchor.getAttribute('data-groupid'); 
+                    renderContent(currentGroup);
                 };
             }
         }
+
+        // injectedSkillName on click button
+        let injectSkillButton = document.getElementById('injectSkillName');
+        injectSkillButton.onclick = function() {
+            injectedSkillName = document.getElementById('injectedSkillName').value;
+            renderContent(currentGroup);
+        };
     };
 
     const renderContent = (group) => {
+        if (!group) return;
         const main = document.getElementById('main');
 
         let data = [];
@@ -130,7 +141,7 @@
         }
         for (const skill of skillsInGroup) {
             try {
-                const skillDetails = gen.getAll(skill);
+                const skillDetails = gen.getAll(skill, injectedSkillName);
                 skillDetails.infoTable = Object.entries(skillDetails.info);
                 skillDetails.attrTable = Object.entries(skillDetails.attributes);
                 skillDetails.strTable = Object.entries(skillDetails.parsedStrings || {});

@@ -1,5 +1,5 @@
 #upload {
-    display: block;
+    display: inline-block;
 }
 
 #sidebar {
@@ -8,4 +8,18 @@
 }
 table {
     font-size: 12px;
+}
+#skill-file-upload {
+	display:inline-block;
+	width: auto;
+}
+#injectedSkillName {
+	min-width: 360px;
+	display:inline-block;
+}
+#injectGroup {
+	display:inline-block;
+}
+#injectGroup .control {
+	display:inline-block;
 }
