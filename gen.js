@@ -138,6 +138,7 @@ gen.getElemAttrMap = (elemAttr) => {
 gen.getTable = (id, attributes, strings, info) => {
     if (!strings) return '';
     return `<!--${Number(id).toString()}-->
+<tabber>
 |-|GMS v221=
 {{#invoke:LuaSkillTable|create
 |skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
