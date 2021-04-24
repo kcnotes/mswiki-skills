@@ -96,7 +96,7 @@ gen.parseStrings = (attributes, strings) => {
 
     Object.keys(attributes).reverse().forEach((key) => {
         if (newStrings.h)
-            newStrings.h = newStrings.h.replace(new RegExp(`#${key}`, 'g'), `#\\${key}`);
+            newStrings.h = newStrings.h.replace(new RegExp(`#${key}`, 'g'), `#|${key}`);
     });
 
     Object.keys(newStrings).forEach(id => {
@@ -106,7 +106,7 @@ gen.parseStrings = (attributes, strings) => {
         newStrings[id] = newStrings[id].replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
         newStrings[id] = newStrings[id].replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
         newStrings[id] = newStrings[id].replace(/-{/g, '&#45;{');
-        newStrings[id] = newStrings[id].replace(/#\\/g, '#');
+        newStrings[id] = newStrings[id].replace(/#\|/g, '#');
         newStrings[id] = newStrings[id].replace(/#$/g, '');
     })
     formulah = formulah.replace(/\\r\\n/g, '<br /><br />');
@@ -115,7 +115,7 @@ gen.parseStrings = (attributes, strings) => {
     formulah = formulah.replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
     formulah = formulah.replace(/#c(.*?)(?:#([^a-zA-Z0-9\\])|(?:#)?$)/g, '<font color="darkorange">$1</font>$2');
     formulah = formulah.replace(/-{/g, '&#45;{');
-    formulah = formulah.replace(/#\\/g, '#');
+    formulah = formulah.replace(/#\|/g, '#');
     formulah = formulah.replace(/#$/g, '');
 
     return {
@@ -138,8 +138,6 @@ gen.getElemAttrMap = (elemAttr) => {
 gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
     if (!strings) return '';
     return `<!--${Number(id).toString()}-->
-<tabber>
-|-|GMS v221=
 {{#invoke:LuaSkillTable|create
 |skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
 |skillClass=${injectedSkillClass || ''}

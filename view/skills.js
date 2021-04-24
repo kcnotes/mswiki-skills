@@ -100,6 +100,7 @@
     let skillData;
     let injectedSkillName = '';
     let currentGroup = null;
+    let injectedPrependText = '<tabber>\n|-|GMS v221=';
 
     const renderSidebar = () => {
         const sidebar = document.getElementById('sidebar');
@@ -121,6 +122,13 @@
         let injectSkillButton = document.getElementById('injectSkillName');
         injectSkillButton.onclick = function() {
             injectedSkillName = document.getElementById('injectedSkillName').value;
+            renderContent(currentGroup);
+        };
+
+        // injectedPrependText on click button
+        let injectPrependTextButton = document.getElementById('injectPrependText');
+        injectPrependTextButton.onclick = function() {
+            injectedPrependText = document.getElementById('injectedPrependText').value;
             renderContent(currentGroup);
         };
     };
@@ -145,6 +153,11 @@
                 skillDetails.infoTable = Object.entries(skillDetails.info);
                 skillDetails.attrTable = Object.entries(skillDetails.attributes);
                 skillDetails.strTable = Object.entries(skillDetails.parsedStrings || {});
+                if (injectedPrependText) {
+                    let tempTable = skillDetails.wikitable.split('\n');
+                    tempTable.splice(1, 0, injectedPrependText.replace(/^\n|\n$/g, ''));
+                    skillDetails.wikitable = tempTable.join('\n');
+                }
                 data.push(skillDetails);
             }
             catch (e) {
