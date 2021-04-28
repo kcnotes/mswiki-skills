@@ -82,7 +82,7 @@ gen.parseStrings = (attributes, strings) => {
     if (!strings.h && !strings.h1) {
         return null;
     }
-    Object.entries(attributes).reverse().forEach((item) => {
+    Object.entries(attributes).sort().reverse().forEach((item) => {
         const key = item[0];
         const value = item[1];
         if ((/^\d+$/g).test(value)) {
@@ -94,7 +94,7 @@ gen.parseStrings = (attributes, strings) => {
         }
     });
 
-    Object.keys(attributes).reverse().forEach((key) => {
+    Object.keys(attributes).sort().reverse().forEach((key) => {
         if (newStrings.h)
             newStrings.h = newStrings.h.replace(new RegExp(`#${key}`, 'g'), `#|${key}`);
     });
