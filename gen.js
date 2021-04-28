@@ -147,7 +147,7 @@ gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
 |animalSPRequirement=
 |maxLevel=${attributes.maxLevel}
 |combatOrders=${info.combatOrders || ''}
-|vSkill=
+|vSkill=${info.vSkill || ''}
 |bgm=
 |description=${strings.desc}
 |readout=${strings.h}
