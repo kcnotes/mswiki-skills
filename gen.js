@@ -148,7 +148,7 @@ gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
 |maxLevel=${attributes.maxLevel}
 |combatOrders=${info.combatOrders || ''}
 |vSkill=${info.vSkill || ''}
-|bgm=
+|bgm=${info?.bgm?.replace(/^.*\//g, '') || ''}
 |description=${strings.desc}
 |readout=${strings.h}
 |formula=${strings.formulah}

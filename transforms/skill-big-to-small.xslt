@@ -14,6 +14,9 @@
             </attr>
             <info>
                 <xsl:copy-of select="./imgdir[@name='info']/*"/>
+                <xsl:if test="./string[@name='bgm']">
+                    <xsl:copy-of select="./string[@name='bgm']"/>
+                </xsl:if>
             </info>
             <xsl:copy-of select="./int" />
             <xsl:copy-of select="./string[@name='elemAttr']"/>
