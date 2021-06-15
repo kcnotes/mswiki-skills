@@ -30,6 +30,9 @@ There are three steps that will run. The second step is the slowest, as it's pai
 
 If something goes wrong, you can perform a particular step using `npm start 1` (or 2 or 3).
 
+## Recommendations
+Delete the generated `tempbig`, `tempxml` and `finalxml` folders. They're not necessary once you have your `all.json`. Delete them (or change them in the code) if you are running Skill001 and Skill002 - unless you want to generate an all.json with all skills data.
+
 ## Making changes
 This is to make changes to transformations.
 
