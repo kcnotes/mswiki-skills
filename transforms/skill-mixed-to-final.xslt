@@ -19,6 +19,7 @@
             <xsl:apply-templates select="@*|node()" />
             <strings>
                 <xsl:copy-of select="$strings/imgdir[@name='Skill.img']/imgdir[@name=$skillId]/*" />
+                <xsl:copy-of select="$strings/dir[@name='Skill.img']/dir[@name=$skillId]/*" />
             </strings>
         </xsl:copy>
     </xsl:template>

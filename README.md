@@ -6,11 +6,16 @@ node -v
 npm -v
 ```
 
-
 Run `npm i` to install packages.
 
 1. Using HaRepacker, get Skill.wz and export selection 'Skill.wz' as XML > Classic into this folder.
 2. Using HaRepacker, open String.wz and export selection 'Skill.img' (not String.wz) as XML > Classic. 
+
+You can also use WzComparerR2:
+
+1. Run https://github.com/PirateIzzy/WzComparerR2/blob/master/WzComparerR2.LuaConsole/Examples/DumpXml.lua, changing `topNode` and `outputDir` as required.
+2. Copy `String.img.xml` into `mswiki-skills`
+3. Copy the `Skill` folder into `mswiki-skills` and rename to `Skill.wz`
 
 Your file structure should be:
 ```
@@ -30,8 +35,12 @@ There are three steps that will run. The second step is the slowest, as it's pai
 
 If something goes wrong, you can perform a particular step using `npm start 1` (or 2 or 3).
 
+
 ## Recommendations
 Delete the generated `tempbig`, `tempxml` and `finalxml` folders. They're not necessary once you have your `all.json`. Delete them (or change them in the code) if you are running Skill001 and Skill002 - unless you want to generate an all.json with all skills data.
+
+## Viewing wiki skills
+Open `index.html` in a browser and load the outputted `all.json`.
 
 ## Making changes
 This is to make changes to transformations.

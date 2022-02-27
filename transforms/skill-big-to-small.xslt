@@ -4,6 +4,7 @@
     <xsl:template match="/">
         <skills>
             <xsl:apply-templates select="/imgdir/imgdir[@name='skill']/imgdir"/>
+            <xsl:apply-templates select="/dir/dir[@name='skill']/dir"/>
         </skills>
     </xsl:template>
     <xsl:template match="/imgdir/imgdir[@name='skill']/imgdir">
@@ -14,6 +15,22 @@
             </attr>
             <info>
                 <xsl:copy-of select="./imgdir[@name='info']/*"/>
+                <xsl:if test="./string[@name='bgm']">
+                    <xsl:copy-of select="./string[@name='bgm']"/>
+                </xsl:if>
+            </info>
+            <xsl:copy-of select="./int" />
+            <xsl:copy-of select="./string[@name='elemAttr']"/>
+        </skill>
+    </xsl:template>
+    <xsl:template match="/dir/dir[@name='skill']/dir">
+        <skill>
+            <id><xsl:value-of select="@name"/></id>
+            <attr>
+                <xsl:copy-of select="./dir[@name='common']/*"/>
+            </attr>
+            <info>
+                <xsl:copy-of select="./dir[@name='info']/*"/>
                 <xsl:if test="./string[@name='bgm']">
                     <xsl:copy-of select="./string[@name='bgm']"/>
                 </xsl:if>

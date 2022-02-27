@@ -58,9 +58,9 @@ const readStreamSync = async (folder, filename, newFolder, newFilename) => {
     return new Promise((resolve,reject) => {
         const readStream = fs.createReadStream(`${SKILL_WZ_FOLDER}/${filename}`, { encoding: 'utf8' });
         readStream
-            .pipe(es.split('</canvas>'))
+            .pipe(es.split('</canvas>').split('</png>'))
             .pipe(es.map((line, next) => {
-                line = line.replace(/(<canvas.*?>|<\/canvas>)/g, '');
+                line = line.replace(/(<canvas.*?>|<\/canvas>|<png.*?>|<\/png>)/g, '');
                 next(null, line);
             }))
             .pipe(fs.createWriteStream(`${newFolder}/${newFilename}`));
@@ -97,6 +97,9 @@ const readStreamSync = async (folder, filename, newFolder, newFilename) => {
                 fileContents = fileContents.replace(/<canvas.*?><\/canvas>/g, '');
                 fileContents = fileContents.replace(/<canvas.*?>/g, '');
                 fileContents = fileContents.replace(/<\/canvas>/g, '');
+                fileContents = fileContents.replace(/<png.*?><\/png>/g, '');
+                fileContents = fileContents.replace(/<png.*?>/g, '');
+                fileContents = fileContents.replace(/<\/png>/g, '');
 
                 runTransform(fileContents, TEMP_XML_FOLDER, filename, 'transforms/skill-big-to-small.sef.json');
                 progress.increment();
