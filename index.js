@@ -167,7 +167,7 @@ const readStreamSync = async (folder, filename, newFolder, newFilename) => {
         });
 
         fs.writeFileSync(FINAL_ALL_JSON, JSON.stringify(jsonBlob));
-
         progress.stop();
+        console.log(`Success! Output: ${FINAL_ALL_JSON}`);
     }
 }());

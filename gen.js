@@ -55,7 +55,7 @@ gen.getInfo = (skill) => {
         }
     }
     for (const type of Object.keys(skill)) {
-        if (!['int', 'string'].includes(type)) {
+        if (!['int', 'int32', 'int64', 'string'].includes(type)) {
             continue;
         }
         const skillAttrs = skill[type];
