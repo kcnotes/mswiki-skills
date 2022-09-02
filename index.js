@@ -58,7 +58,7 @@ const readStreamSync = async (folder, filename, newFolder, newFilename) => {
     return new Promise((resolve,reject) => {
         const readStream = fs.createReadStream(`${SKILL_WZ_FOLDER}/${filename}`, { encoding: 'utf8' });
         readStream
-            .pipe(es.split('</canvas>').split('</png>'))
+            .pipe(es.split('</png>'))
             .pipe(es.map((line, next) => {
                 line = line.replace(/(<canvas.*?>|<\/canvas>|<png.*?>|<\/png>)/g, '');
                 next(null, line);
