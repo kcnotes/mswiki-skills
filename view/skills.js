@@ -100,7 +100,7 @@
     let skillData;
     let injectedSkillName = '';
     let currentGroup = null;
-    let injectedPrependText = '<tabber>\n|-|GMS v241=';
+    let injectedPrependText = '<tabber>\n|-|GMS v242=';
 
     const renderSidebar = () => {
         const sidebar = document.getElementById('sidebar');
