@@ -141,7 +141,7 @@ gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
 {{#invoke:LuaSkillTable|create
 |skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
 |skillClass=${injectedSkillClass || ''}
-|skillType=${(Number(id).toString().slice(-4, -3) == '1') ? 'Active' : 'Passive'}
+|skillType=${(Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |elementAttribute=${gen.getElemAttrMap(info?.elemAttr)}
 |levelRequirement=${info.reqLev || ''}
 |animalSPRequirement=
