@@ -158,7 +158,7 @@ gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
     if (!strings) return '';
     return `
 {{#invoke:${(info.vSkill)? 'LuaSkillboxFifthJob|create' : id.startsWith('50000') ? 'LuaSkillboxSixthJobEnhancement' : 'LuaSkillbox|create'} <!--${Number(id).toString()}-->
-|skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
+|skillName=[[File:Skill ${strings.name}.png]] [[${strings.name}]]
 |skillType=${(Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |reqLv=${info.reqLev || ''}
 |masterLevel=${attributes.maxLevel}
