@@ -91,7 +91,9 @@
                     </table>
                 </div>
                 <div class="column">
-                    <textarea class="textarea is-small" onclick="this.select()" rows="14">{{wikitable}}</textarea>
+                    <textarea class="textarea is-small" onclick="this.select()" rows="12">{{wikitable}}</textarea>
+					<br/>
+                    <textarea class="textarea is-small" onclick="this.select()" rows="12">{{skillbox}}</textarea>
                 </div>
             </div>
         {{/skills}}
@@ -100,7 +102,7 @@
     let skillData;
     let injectedSkillName = '';
     let currentGroup = null;
-    let injectedPrependText = '<tabber>\n|-|GMS v245=';
+    let injectedPrependText = '<tabber>\n|-|GMS v246=';
 
     const renderSidebar = () => {
         const sidebar = document.getElementById('sidebar');
@@ -158,6 +160,8 @@
                     tempTable.splice(1, 0, injectedPrependText.replace(/^\n|\n$/g, ''));
                     skillDetails.wikitable = tempTable.join('\n');
                 }
+				let skillboxTable = skillDetails.skillbox.split('\n');
+				skillDetails.skillbox = skillboxTable.join('\n');
                 data.push(skillDetails);
             }
             catch (e) {

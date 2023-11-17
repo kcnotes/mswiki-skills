@@ -144,13 +144,25 @@ gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
 |skillType=${(Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |elementAttribute=${gen.getElemAttrMap(info?.elemAttr)}
 |levelRequirement=${info.reqLev || ''}
-|animalSPRequirement=
 |maxLevel=${attributes.maxLevel}
 |combatOrders=${info.combatOrders || ''}
 |vSkill=${info.vSkill || ''}
 |bgm=${info?.bgm?.replace(/^.*\//g, '') || ''}
 |description=${strings.desc}
 |readout=${strings.h}
+|formula=${strings.formulah}
+}}`;
+};
+
+gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
+    if (!strings) return '';
+    return `
+{{#invoke:${(info.vSkill)? 'LuaSkillboxFifthJob|create' : 'LuaSkillbox|create'} <!--${Number(id).toString()}-->
+|skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
+|skillType=${(Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
+|reqLv=${info.reqLev || ''}
+|masterLevel=${attributes.maxLevel}
+|description=${strings.desc}
 |formula=${strings.formulah}
 }}`;
 };
@@ -189,7 +201,8 @@ gen.getAll = (skill, injectedSkillClass) => {
         id,
         strings,
         parsedStrings,
-        wikitable: gen.getTable(id, attributes, parsedStrings, info, injectedSkillClass)
+        wikitable: gen.getTable(id, attributes, parsedStrings, info, injectedSkillClass),
+		skillbox: gen.getSkillbox(id, attributes, parsedStrings, info, injectedSkillClass),
     };
 }
 
