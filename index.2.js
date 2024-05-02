@@ -1,5 +1,6 @@
 const { Command } = require('commander');
-const { convert, categoryToTransform } = require('./actions/convert.js');
+const { convert } = require('./actions/convert');
+const { categoryTransforms } = require("./actions/transforms");
 
 const program = new Command();
 
@@ -20,7 +21,7 @@ program
   .description('Lists all available categories.')
   .action(() => {
     console.log('Categories:');
-    for (const category in categoryToTransform) {
+    for (const category in categoryTransforms) {
       console.log(`- ${category}`);
     }
   });

@@ -116,6 +116,14 @@ const mergeJson = (category, transform, opts) => {
     return;
   }
 
+  // If no with file, just transform the base JSON
+  if (transform.with == null) {
+    console.log(`[${category}] [${transform.base}]: Transforming JSON`);
+    const json = transform.mergeFn(JSON.parse(fs.readFileSync(base)));
+    fs.writeFileSync(outJson, JSON.stringify(json));
+    return;
+  }
+
   if (!fs.existsSync(withFile)) {
     console.log(`[${category}] [${transform.with}]: With file not found`);
     return;

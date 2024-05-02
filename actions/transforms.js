@@ -16,7 +16,21 @@ const mergeCharacter = (base, withData) => {
   return base;
 }
 
-const createCharacterTransforms = (category, xmlFolder) => {
+const mergeAuction = (base) => {
+  return base.AuctionData.Type.flatMap(type => (
+    type.SubType.flatMap(subtype => (
+      subtype.Category?.map(category => ({
+        ...category._attributes,
+        begin: Number(category._attributes.begin),
+        end: Number(category._attributes.end),
+        subtype: subtype._attributes.type,
+        type: type._attributes.type,
+      })) ?? [] // SkillBook is an empty subtype
+    ))
+  ))
+};
+
+const createCharacterTransform = (category, xmlFolder) => {
   return [
     {
       type: 'xslt',
@@ -44,12 +58,31 @@ const createCharacterTransforms = (category, xmlFolder) => {
   ]
 }
 
+const createAuctionDataTransform = () => ([
+  {
+    type: 'xslt',
+    id: 'Etc.AuctionData',
+    xform: 'transforms/etc.auctiondata.sef.json',
+    xml: 'Etc/AuctionData.img.xml',
+    outXml: 'Etc.AuctionData.img.xml',
+    outJson: 'Etc.AuctionData.json'
+  },
+  {
+    type: 'merge',
+    base: 'Etc.AuctionData.json',
+    with: null,
+    mergeFn: mergeAuction,
+    outJson: 'Etc.AuctionData.merged.json',
+  }
+]);
+
 /**
  * outXml, outJson and outJson must be single files with no folders
  */
 const categoryTransforms = {
-  'Character.Accessory': createCharacterTransforms('Character.Accessory', 'Character/Accessory/'),
-  'Character.Cap': createCharacterTransforms('Character.Cap', 'Character/Cap/'),
+  'Character.Accessory': createCharacterTransform('Character.Accessory', 'Character/Accessory/'),
+  'Character.Cap': createCharacterTransform('Character.Cap', 'Character/Cap/'),
+  'Etc.AuctionData': createAuctionDataTransform(),
 };
 
 module.exports.categoryTransforms = categoryTransforms;
