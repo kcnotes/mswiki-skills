@@ -138,6 +138,7 @@ const readStreamSync = async (folder, filename, newFolder, newFilename) => {
             }
             catch (e) {
                 console.log(`Error parsing ${filename}`);
+                console.log(e);
                 return;
             }
             progress.increment();

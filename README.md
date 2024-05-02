@@ -52,6 +52,7 @@ This is to make changes to transformations.
 After changing any xslt, you need to convert it into SEF:
 ```bash
 node transforms/build-transforms.js
+node transforms/build-transforms.js etc.auctiondata.xslt
 ```
 
 ## New system
