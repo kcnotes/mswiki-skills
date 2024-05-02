@@ -30,7 +30,7 @@
         {{#skills}}
             <h2 class="title is-5" id="{{id}}">
                 {{id}}: {{strings.name}}
-                <a href="https://maplestory.fandom.com/wiki/{{strings.name}}" target="_blank">
+                <a href="https://maplestorywiki.net/w/{{strings.name}}" target="_blank">
                     <button class="button is-link is-light is-small">Wiki page</button>
                 </a>
             </h2>
@@ -102,7 +102,7 @@
     let skillData;
     let injectedSkillName = '';
     let currentGroup = null;
-    let injectedPrependText = '<tabber>\n|-|GMS v246=';
+    let injectedPrependText = '<tabber>\n|-|GMS v250=';
 
     const renderSidebar = () => {
         const sidebar = document.getElementById('sidebar');
