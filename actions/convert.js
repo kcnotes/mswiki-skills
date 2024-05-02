@@ -25,16 +25,21 @@ const convert = (category, opts) => {
 
   // Run transforms for the given category
   for (const transform of categoryTransforms[category]) {
+    let result = false;
     switch(transform.type) {
       case 'xslt':
-        transformXslt(category, transform, opts);
+        result = transformXslt(category, transform, opts);
         break;
       case 'xslt-bulk':
-        transformXsltBulk(category, transform, opts);
+        result = transformXsltBulk(category, transform, opts);
         break;
       case 'merge':
-        mergeJson(category, transform, opts);
+        result = mergeJson(category, transform, opts);
         break;
+    }
+    if (!result) {
+      console.error(`[${category}] [${transform.xform}]: Stopped early due to error above.`);
+      return;
     }
   }
   console.log(`[${category}] Done. The final JSON file is available at ${opts.output}/${categoryTransforms[category].at(-1).outJson}`);
@@ -47,8 +52,8 @@ const transformXslt = (category, transform, opts) => {
   
   // Check if source exists
   if (!fs.existsSync(source)) {
-    console.log(`[${category}] [${transform.xform}]: Source file not found`);
-    return;
+    console.log(`[${category}] [${transform.xform}]: Source file not found: ${source}`);
+    return false;
   }
 
   console.log(`[${category}] [${transform.xform}]: Running XML transform`);
@@ -60,6 +65,7 @@ const transformXslt = (category, transform, opts) => {
     compact: true,
   });
   fs.writeFileSync(outJson, json);
+  return true;
 }
 
 const transformXsltBulk = (category, transform, opts) => {
@@ -69,8 +75,8 @@ const transformXsltBulk = (category, transform, opts) => {
   
   // Check if source exists
   if (!fs.existsSync(xmlFolder)) {
-    console.log(`[${category}] [${transform.xform}]: Source folder not found`);
-    return;
+    console.log(`[${category}] [${transform.xform}]: Source folder not found: ${source}`);
+    return false;
   }
 
   // Make output folder (debugging)
@@ -90,6 +96,12 @@ const transformXsltBulk = (category, transform, opts) => {
     let outXml = `${outXmlFolder}/${file}`;
     
     const xml = runTransformFile(source, null, transform.out, transform.xform);
+
+    if (xml == null) {
+      // runTransformFile threw and returned undefined.
+      continue;
+    }
+    
     // Write to XML when debugging
     // fs.writeFileSync(outXml, xml);
 
@@ -104,6 +116,7 @@ const transformXsltBulk = (category, transform, opts) => {
   progress.stop();
 
   fs.writeFileSync(outJson, JSON.stringify(output));
+  return true;
 }
 
 const mergeJson = (category, transform, opts) => {
@@ -136,6 +149,7 @@ const mergeJson = (category, transform, opts) => {
   const mergedJson = transform.mergeFn(baseJson, withJson);
   
   fs.writeFileSync(outJson, JSON.stringify(mergedJson));
+  return true;
 }
 
 /**
@@ -161,7 +175,7 @@ const runTransformFile = (source, destination, filename, transform) => {
     return output.principalResult;
   } catch (e) {
     console.log(e);
-    console.log(`Error parsing ${filename}`);
+    console.log(`Error parsing ${source}, ${filename}`);
   }
 };
 

@@ -151,7 +151,7 @@
         }
         for (const skill of skillsInGroup) {
             try {
-                const skillDetails = gen.getAll(skill, injectedSkillName);
+                const skillDetails = gen.getAll(skill, injectedSkillName, skillData.formatversion);
                 skillDetails.infoTable = Object.entries(skillDetails.info);
                 skillDetails.attrTable = Object.entries(skillDetails.attributes);
                 skillDetails.strTable = Object.entries(skillDetails.parsedStrings || {});

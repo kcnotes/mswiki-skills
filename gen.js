@@ -73,7 +73,7 @@ gen.getInfo = (skill) => {
 };
 
 gen.getId = (skill) => {
-    return skill.id._text;
+    return skill.id._text || skill.id;
 };
 
 gen.parseStrings = (attributes, strings) => {
@@ -183,18 +183,18 @@ gen.findSkillById = (data, skillId) => {
 };
 
 gen.getSkillGroups = (data) => {
-    return Object.keys(data);
+    return Object.keys(data).filter(d => d !== 'formatversion');
 };
 
 gen.getSkillsForGroup = (data, group) => {
     return data[group].skills.skill;
 };
 
-gen.getAll = (skill, injectedSkillClass) => {
+gen.getAll = (skill, injectedSkillClass, formatversion) => {
     const attributes = gen.getAttributes(skill);
     const info = gen.getInfo(skill);
     const id = gen.getId(skill);
-    const strings = gen.getStrings(skill);
+    const strings = formatversion === '2' ? skill.strings : gen.getStrings(skill);
     const parsedStrings = gen.parseStrings(attributes, strings);
     return {
         attributes,

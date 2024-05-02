@@ -5,7 +5,7 @@ const { categoryTransforms } = require("./actions/transforms");
 const program = new Command();
 
 program
-  .name('mswiki-json')
+  .name('npm run start_v2 --')
   .description('Converts MapleStory XML files to JSON');
 
 program

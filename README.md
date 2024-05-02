@@ -12,14 +12,36 @@ npm -v
 
 Run `npm i` to install packages.
 
-1. Using HaRepacker, get Skill.wz and export selection 'Skill.wz' as XML > Classic into this folder.
-2. Using HaRepacker, open String.wz and export selection 'Skill.img' (not String.wz) as XML > Classic. 
+Using WzComparerR2, run it for both Skill and String. Run https://github.com/PirateIzzy/WzComparerR2/blob/master/WzComparerR2.LuaConsole/Examples/DumpXml.lua, changing `topNode` and `outputDir` as required.
 
-Using WzComparerR2, run it for both Skill and String.
+### Version 
 
-1. Run https://github.com/PirateIzzy/WzComparerR2/blob/master/WzComparerR2.LuaConsole/Examples/DumpXml.lua, changing `topNode` and `outputDir` as required.
-2. Copy `String.img.xml` into `mswiki-skills`
-3. Copy the `Skill` folder into `mswiki-skills` and rename to `Skill.wz`
+**Version 2 is now preferred over Version 1.** You'll benefit from 10x faster skill generation!
+
+1. Place both the Skill and String folders into `mswiki-skills/xml`.
+
+Your file structure should be:
+```
+> mswiki-skills
+    - README.md
+    > xml
+      > String
+        - Skill.img.xml
+      > Skill
+        - 000.img.xml
+        - 100.img.xml
+        ...
+        - Recipe_9204.img.xml
+```
+
+Run `npm run start_v2 convert Skill`. 
+
+If you've already put your folders in another place, you can choose to specify that folder by running `npm run start_v2 convert Skill -- -f "../to/folder"`.
+
+### Version 1
+
+1. Copy `String.img.xml` into `mswiki-skills`
+2. Copy the `Skill` folder into `mswiki-skills` and rename to `Skill.wz`
 
 Your file structure should be:
 ```
@@ -41,7 +63,7 @@ If something goes wrong, you can perform a particular step using `npm start 1` (
 
 
 ## Recommendations
-Delete the generated `tempbig`, `tempxml` and `finalxml` folders. They're not necessary once you have your `all.json`. Delete them (or change them in the code) if you are running Skill001 and Skill002 - unless you want to generate an all.json with all skills data.
+Delete the generated `out`, `tempbig`, `tempxml` and `finalxml` folders. They're not necessary once you have your `all.json`. Delete them (or change them in the code) if you are running Skill001 and Skill002 - unless you want to generate an all.json with all skills data.
 
 ## Viewing wiki skills
 Open `index.html` in a browser and load the outputted `all.json`.

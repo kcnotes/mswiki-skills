@@ -16,6 +16,37 @@ const mergeCharacter = (base, withData) => {
   return base;
 }
 
+const mergeSkill = (base, withData) => {
+  progress.start(Object.keys(base).length, 0);
+  const merged = {};
+
+  // Merge withData into base
+  for (const baseId of Object.keys(base)) {
+    let skills = base[baseId].Skills.Skill;
+    if (skills == null) {
+      continue;
+    }
+    if (!Array.isArray(skills)) {
+      skills = [skills];
+    }
+    merged[baseId] = {
+      skills: {
+        skill: skills.map(s => ({
+          ...s,
+          id: s._attributes.id,
+          strings: {
+            ...withData.Skills[`s_${s._attributes.id}`]?._attributes,
+          }
+        }))
+      }
+    }
+    progress.increment();
+  }
+  progress.stop();
+  merged['formatversion'] = '2';
+  return merged;
+}
+
 const mergeAuction = (base) => {
   return base.AuctionData.Type.flatMap(type => (
     type.SubType.flatMap(subtype => (
@@ -58,6 +89,34 @@ const createCharacterTransform = (category, xmlFolder) => {
   ]
 }
 
+const createSkillTransform = () => {
+  return [
+    {
+      type: 'xslt',
+      id: 'String.Skill',
+      xform: 'transforms/string.skill.sef.json',
+      xml: 'String/Skill.img.xml',
+      outXml: 'String.Skill.img.xml',
+      outJson: 'String.Skill.json'
+    },
+    {
+      type: 'xslt-bulk',
+      id: 'Skill',
+      xform: 'transforms/skill.sef.json',
+      xmlFolder: 'Skill',
+      outXmlFolder: 'Skill',
+      outJson: 'Skill.json'
+    },
+    {
+      type: 'merge',
+      base: `Skill.json`,
+      with: 'String.Skill.json',
+      mergeFn: mergeSkill,
+      outJson: `Skill.merged.json`,
+    }
+  ]
+};
+
 const createAuctionDataTransform = () => ([
   {
     type: 'xslt',
@@ -82,6 +141,7 @@ const createAuctionDataTransform = () => ([
 const categoryTransforms = {
   'Character.Accessory': createCharacterTransform('Character.Accessory', 'Character/Accessory/'),
   'Character.Cap': createCharacterTransform('Character.Cap', 'Character/Cap/'),
+  'Skill': createSkillTransform(),
   'Etc.AuctionData': createAuctionDataTransform(),
 };
 
