@@ -138,7 +138,7 @@ gen.getElemAttrMap = (elemAttr) => {
 gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
     if (!strings) return '';
     return `<!--${Number(id).toString()}-->
-{{#invoke:LuaSkillTable|create
+{{SkillTable
 |skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
 |skillClass=${injectedSkillClass || ''}
 |skillType=${(Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
