@@ -158,7 +158,7 @@ gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
 	var isHexaBoost = id.startsWith('50000');
     if (!strings) return '';
     return `
-{{#invoke:${(info.vSkill)? 'LuaSkillboxFifthJob|create' : isHexaBoost ? 'LuaSkillboxSixthJobEnhancement|create' : 'LuaSkillbox|create'} <!--${Number(id).toString()}-->
+{{${(info.vSkill)? 'SkillBoxFifthJob' : isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'} <!--${Number(id).toString()}-->
 |skillName=[[File:Skill ${strings.name}.png]] ${isHexaBoost ? '\'\'\'' : '[['}${strings.name}${isHexaBoost ? '\'\'\'' : ']]'}
 |skillType=${isHexaBoost ? 'Passive' : (Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |reqLv=${info.reqLev || ''}
