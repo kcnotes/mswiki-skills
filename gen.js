@@ -9,7 +9,13 @@ gen.getAttributes = (skill) => {
         const skillAttrs = skill.attr[type];
         if (Array.isArray(skillAttrs)) {
             const subAttributes = skillAttrs.reduce((obj, item) => {
-                obj[item._attributes.name] = item._attributes.value;
+				// Converts millisecond cooldowns to seconds
+				if (item._attributes.name == "cooltimeMS") {
+					obj[item._attributes.name] = "(".concat(item._attributes.value).concat(")*0.001");
+				}
+				else {
+					obj[item._attributes.name] = item._attributes.value;
+				}
                 return obj;
             }, {});
             attributes = { ...attributes, ...subAttributes };
