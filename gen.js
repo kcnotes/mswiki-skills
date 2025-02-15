@@ -164,7 +164,10 @@ gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
 	var isHexaBoost = id.startsWith('50000');
     if (!strings) return '';
     return `
-{{${(info.vSkill)? 'SkillBoxFifthJob' : isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'} <!--${Number(id).toString()}-->
+{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}
+|id=${Number(id).toString()}
+|vSkill=${info.vSkill || ''}
+|combatOrders=${info.combatOrders || ''}
 |skillName=[[File:Skill ${strings.name}.png]] ${isHexaBoost ? '\'\'\'' : '[['}${strings.name}${isHexaBoost ? '\'\'\'' : ']]'}
 |skillType=${isHexaBoost ? 'Passive' : (Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |reqLv=${info.reqLev || ''}
