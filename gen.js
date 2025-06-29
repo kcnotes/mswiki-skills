@@ -174,9 +174,10 @@ gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
         reformattedIconName = reformattedIconName.replace(" Boost", "");
         reformattedUrlName = reformattedUrlName.replace(" Boost", `6th Job Enhancement|${strings.name}`);
     }
-    var shouldShowID = (info.vSkill != null) || isHexaBoost;
+	// Note: This is a naive check that will put IDs into 4th job Dual Blade skills
+    var shouldShowID = (info.vSkill != null) || isHexaBoost || (Number(id[id.length - 5]) > 3);
     var idLine = '';
-    if (!shouldShowID) {
+    if (shouldShowID) {
         idLine = `{{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}
 |id=${Number(id).toString()}`;
     }
