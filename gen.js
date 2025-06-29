@@ -186,7 +186,7 @@ gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
 {{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}`;
     }
     return `${idLine}
-|skillName=[[File:Skill ${reformattedIconName}.png]] ${reformattedUrlName}
+|skillName=[[File:Skill ${reformattedIconName}.png]] [[${reformattedUrlName}]]
 |skillType=${isHexaBoost ? 'Passive' : (Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |reqLv=${info.reqLev || ''}
 |masterLevel=${attributes.maxLevel}
