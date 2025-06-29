@@ -143,9 +143,14 @@ gen.getElemAttrMap = (elemAttr) => {
 
 gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
     if (!strings) return '';
+	var reformattedIconName = ${strings.name};
+	var isHexaBoost = id.startsWith('50000');
+	reformattedIconName = reformattedIconName.replaceAll("[", "(").replaceAll("]", ")");
+	if (isHexaBoost)
+		reformattedIconName = reformattedIconName.replace(" Boost", "");
     return `<!--${Number(id).toString()}-->
 {{SkillTable
-|skillName=[[File:Skill ${strings.name}.png]] '''${strings.name}'''
+|skillName=[[File:Skill ${reformattedIconName}.png]] '''${strings.name}'''
 |skillClass=${injectedSkillClass || ''}
 |skillType=${(Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |elementAttribute=${gen.getElemAttrMap(info?.elemAttr)}
@@ -162,16 +167,30 @@ gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
 
 gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
 	var isHexaBoost = id.startsWith('50000');
+	var reformattedIconName = ${strings.name}.replaceAll("[", "(").replaceAll("]", ")");
+	var reformattedUrlName = ${strings.name}.replaceAll("[", "(").replaceAll("]", ")");
+	if (isHexaBoost) {
+		reformattedIconName = reformattedIconName.replace(" Boost", "");
+		reformattedUrlName = reformattedUrlName.replace(" Boost", `6th Job Enhancement|${strings.name}`);
+	}
+	var shouldShowID = (info.vSkill != null) || isHexaBoost;
+	var idLine = '';
+	if (!shouldShowID) {
+		idLine = `{{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}
+|id=${Number(id).toString()}`;
+	}
+	else {
+		idLine = `<!--${Number(id).toString()}-->
+{{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}`;
+	}
     if (!strings) return '';
-    return `
-{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}
-|id=${Number(id).toString()}
-|vSkill=${info.vSkill || ''}
-|combatOrders=${info.combatOrders || ''}
-|skillName=[[File:Skill ${strings.name}.png]] ${isHexaBoost ? '\'\'\'' : '[['}${strings.name}${isHexaBoost ? '\'\'\'' : ']]'}
+    return `${idLine}
+|skillName=[[File:Skill ${reformattedIconName}.png]] ${reformattedUrlName}
 |skillType=${isHexaBoost ? 'Passive' : (Number(id).toString().slice(-4, -3) == '0') ? 'Passive' : 'Active'}
 |reqLv=${info.reqLev || ''}
 |masterLevel=${attributes.maxLevel}
+|combatOrders=${info.combatOrders || ''}
+|vSkill=${info.vSkill || ''}
 |description=${strings.desc}
 |formula=${strings.formulah}
 }}`;
