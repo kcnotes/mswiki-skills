@@ -143,7 +143,7 @@ gen.getElemAttrMap = (elemAttr) => {
 
 gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
     if (!strings) return '';
-    var reformattedIconName = ${strings.name};
+    var reformattedIconName = `${strings.name}`;
     var isHexaBoost = id.startsWith('50000');
     reformattedIconName = reformattedIconName.replaceAll("[", "(").replaceAll("]", ")");
     if (isHexaBoost)
@@ -168,8 +168,8 @@ gen.getTable = (id, attributes, strings, info, injectedSkillClass) => {
 gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
     if (!strings) return '';
     var isHexaBoost = id.startsWith('50000');
-    var reformattedIconName = ${strings.name}.replaceAll("[", "(").replaceAll("]", ")");
-    var reformattedUrlName = ${strings.name}.replaceAll("[", "(").replaceAll("]", ")");
+    var reformattedIconName = `${strings.name}`.replaceAll("[", "(").replaceAll("]", ")");
+    var reformattedUrlName = `${strings.name}`.replaceAll("[", "(").replaceAll("]", ")");
     if (isHexaBoost) {
         reformattedIconName = reformattedIconName.replace(" Boost", "");
         reformattedUrlName = reformattedUrlName.replace(" Boost", `6th Job Enhancement|${strings.name}`);
