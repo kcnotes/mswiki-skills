@@ -178,12 +178,12 @@ gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
     var shouldShowID = (info.vSkill != null) || isHexaBoost || (Number(id[id.length - 5]) > 3);
     var idLine = '';
     if (shouldShowID) {
-        idLine = `{{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}
+        idLine = `{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}
 |id=${Number(id).toString()}`;
     }
     else {
         idLine = `<!--${Number(id).toString()}-->
-{{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}`;
+{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}`;
     }
     return `${idLine}
 |skillName=[[File:Skill ${reformattedIconName}.png]] [[${reformattedUrlName}]]
