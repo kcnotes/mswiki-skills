@@ -172,7 +172,7 @@ gen.getSkillbox = (id, attributes, strings, info, injectedSkillClass) => {
     var reformattedUrlName = `${strings.name}`.replaceAll("[", "(").replaceAll("]", ")");
     if (isHexaBoost) {
         reformattedIconName = reformattedIconName.replace(" Boost", "");
-        reformattedUrlName = reformattedUrlName.replace(" Boost", `6th Job Enhancement|${strings.name}`);
+        reformattedUrlName = reformattedUrlName.replace(" Boost", `#6th Job Enhancement|${strings.name}`);
     }
 	// Note: This is a naive check that will put IDs into 4th job Dual Blade skills
     var shouldShowID = (info.vSkill != null) || isHexaBoost || (Number(id[id.length - 5]) > 3);
