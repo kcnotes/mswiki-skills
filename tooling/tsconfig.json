@@ -22,6 +22,7 @@
     "noImplicitOverride": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
     "noPropertyAccessFromIndexSignature": true,
     // Recommended Options
     "strict": true,

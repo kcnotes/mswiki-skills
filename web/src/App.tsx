@@ -1,8 +1,9 @@
 import { createTheme, Box, Grid, MantineProvider, Stack } from "@mantine/core";
 import { VersionSelector } from "./skills/version_selector";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Sidebar } from "./skills/sidebar";
 import { SkillImportContextProvider } from "./skills/skill_context_provider";
+import { SkillGroup } from "./skills/skill_group";
 
 export function App() {
   const theme = createTheme({
@@ -11,6 +12,12 @@ export function App() {
     defaultRadius: "xs",
     activeClassName: '',
   });
+
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+
+  const selectGroup = (groupId: string) => {
+    setSelectedGroup(groupId);
+  };
 
   return (
     <MantineProvider theme={theme}>
@@ -22,10 +29,12 @@ export function App() {
           <Grid>
             <Grid.Col span={{ base: 12, md: 3 }}>
               <Suspense fallback={<div>Loading...</div>}>
-                <Sidebar />
+                <Sidebar selectGroup={selectGroup} />
               </Suspense>
             </Grid.Col>
-            <Grid.Col span={{ base: 12, md: 9 }}><pre>{ }</pre></Grid.Col>
+            <Grid.Col span={{ base: 12, md: 9 }}>
+              {selectedGroup && <SkillGroup groupId={selectedGroup} />}
+            </Grid.Col>
           </Grid>
         </Stack>
       </SkillImportContextProvider>    </MantineProvider>
