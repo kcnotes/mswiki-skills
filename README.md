@@ -14,9 +14,7 @@ Run `npm i` to install packages.
 
 Using WzComparerR2, run it for both Skill and String. Run https://github.com/PirateIzzy/WzComparerR2/blob/master/WzComparerR2.LuaConsole/Examples/DumpXml.lua, changing `topNode` and `outputDir` as required.
 
-### Version 
-
-**Version 2 is now preferred over Version 1.** You'll benefit from 10x faster skill generation!
+### Using the script
 
 1. Place both the Skill and String folders into `mswiki-skills/xml`.
 
@@ -34,52 +32,12 @@ Your file structure should be:
         - Recipe_9204.img.xml
 ```
 
-Run `npm run start_v2 convert Skill`. 
+Run `npm run skills`. 
 
-If you've already put your folders in another place, you can choose to specify that folder by running `npm run start_v2 convert Skill -- -f "../to/folder"`.
-
-### Version 1
-
-1. Copy `String.img.xml` into `mswiki-skills`
-2. Copy the `Skill` folder into `mswiki-skills` and rename to `Skill.wz`
-
-Your file structure should be:
-```
-> mswiki-skills
-    - README.md
-    - Skill.img.xml
-    > Skill.wz
-        - 000.img.xml
-        - 100.img.xml
-        ...
-        - Recipe_9204.img.xml
-```
-
-Run `npm start`!
-
-There are three steps that will run. The second step is the slowest, as it's pairing up strings with skills. The output is a file called `all.json`.
-
-If something goes wrong, you can perform a particular step using `npm start 1` (or 2 or 3).
-
+If you've already put your folders in another place, you can choose to specify that folder by running `npm run skills -- -f "../to/folder"`.
 
 ## Recommendations
-Delete the generated `out`, `tempbig`, `tempxml` and `finalxml` folders. They're not necessary once you have your `all.json`. Delete them (or change them in the code) if you are running Skill001 and Skill002 - unless you want to generate an all.json with all skills data.
+Delete the generated `out/temp` files if you would like. They're not necessary once you have your `skills.json`.
 
 ## Viewing wiki skills
-Open `index.html` in a browser and load the outputted `all.json`.
-
-## Making changes
-This is to make changes to transformations.
-
-After changing any xslt, you need to convert it into SEF:
-```bash
-node transforms/build-transforms.js
-node transforms/build-transforms.js etc.auctiondata.xslt
-```
-
-## New system
-New script is a work in progress.
-
-```bash
-node index.2.js convert "Character.Accessory" -f "../xml"
-```
+Open `index.html` in a browser and load the outputted `skills.json`.

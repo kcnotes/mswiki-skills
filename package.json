@@ -1,21 +1,23 @@
 {
   "name": "mswiki-skills",
-  "version": "1.0.0",
-  "description": "You will need node.js installed and configured in your preferred terminal.",
-  "main": "index.js",
+  "version": "1.1.0",
+  "description": "Tooling for converting MapleStory XML files to JSON",
+  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "start_v2": "node index.2.js"
+    "skills": "node dist/index.js skills",
+    "tsc": "tsc -p ./tooling"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Copyright",
   "dependencies": {
     "cli-progress": "^3.9.0",
     "commander": "^12.0.0",
-    "event-stream": "^4.0.1",
-    "saxon-js": "^2.1.0",
-    "xml-js": "^1.6.11",
-    "xslt3": "^2.1.0"
+    "fast-xml-parser": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/cli-progress": "^3.11.6",
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
   }
 }
