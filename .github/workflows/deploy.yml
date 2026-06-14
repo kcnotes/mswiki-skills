@@ -41,6 +41,7 @@ jobs:
         uses: actions/configure-pages@v6
       - name: Copy legacy files
         run: |
+          mkdir -p ./dist/legacy
           cp -r ../legacy/* ./dist/legacy
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
