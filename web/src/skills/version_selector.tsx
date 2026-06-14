@@ -54,7 +54,7 @@ export const VersionSelector = () => {
                 {Object.keys(versions).map((v) => (
                     <Menu.Item
                         key={v}
-                        onClick={() => { setVersion(v); }}
+                        onClick={() => { setVersion(v as Versions); }}
                         rightSection={v === version ? <CheckIcon size={14} /> : undefined}
                     >
                         {version}
