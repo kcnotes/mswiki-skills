@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { SkillImportContext } from "../skill_context";
 import { Accordion, Alert, Button, Flex, Group, Stack, Table } from "@mantine/core";
 import type { ImportedSkill } from "../skill_context";
@@ -11,7 +11,10 @@ import { SkillOptionsContext } from "../skill_options_context";
 export const Skill = ({ skillId, skill }: { skillId: string; skill: ImportedSkill }) => {
     const { skillImport } = useContext(SkillImportContext);
     const { options } = useContext(SkillOptionsContext);
-    const props = getSkillProps(skillId, skill, options);
+    const getSkill = useCallback((id: string) => {
+        return skillImport?.[getGroupId(id)]?.skills[id];
+    }, [skillImport]);
+    const props = getSkillProps(skillId, skill, getSkill, options);
     return (
         <>
             <Accordion.Control>
@@ -44,16 +47,6 @@ export const Skill = ({ skillId, skill }: { skillId: string; skill: ImportedSkil
                                 })}
                             </Table.Tbody>
                         </Table>
-                        {Object.entries(skill.req).length > 0 && (
-                            <>
-                                <p>Reqs:</p>
-                                <ul>
-                                    {Object.entries(skill.req).map(([reqId, req]) => (
-                                        <li key={reqId}>{skillImport?.[getGroupId(reqId)]?.skills[reqId]?.strings.name ?? 'Unknown'}: {req}</li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
                     </Stack>
                 </ErrorBoundary>
             </Accordion.Panel>

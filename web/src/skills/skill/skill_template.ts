@@ -98,7 +98,7 @@ export const getElementAttribute = (elemAttr?: string) => {
     }
 };
 
-export const getSkillProps = (id: string, skill: ImportedSkill, options?: { skillClass?: string }): SkillProps => {
+export const getSkillProps = (id: string, skill: ImportedSkill, getSkill: (id: string) => ImportedSkill | undefined, options?: { skillClass?: string }): SkillProps => {
     const name = skill.strings.name ?? '';
     const iconName = name.replaceAll("[", "(").replaceAll("]", ")");
     const parameters = {
@@ -134,8 +134,23 @@ export const getSkillProps = (id: string, skill: ImportedSkill, options?: { skil
         isHexaBoost,
         vSkill: skill.info.vSkill,
         bgm: skill.info.bgm?.replace(/^.*\//g, ''),
-        description: getSkillString(skill.strings.desc ?? '', parameters, parseFormula),
+        description: getSkillString(skill.strings.desc ?? '', parameters, parseFormula) + getReqs(skill, getSkill),
         readout: getSkillString(skill.strings.h ?? '', parameters, parseReadout),
         formula: getSkillString(skill.strings.h ?? '', parameters, parseFormula),
     };
+};
+
+const getReqs = (skill: ImportedSkill, getSkill: (id: string) => ImportedSkill | undefined) => {
+    const reqs = Object.entries(skill.req).map(([key, value]) => {
+        const reqSkill = getSkill(key);
+        if (!reqSkill?.strings.name) {
+            return null;
+        }
+        return `${reqSkill.strings.name} Lv. ${value}+`;
+    }).filter(Boolean);
+
+    if (reqs.length === 0) {
+        return '';
+    }
+    return `<br />Required Skill: <span class="darkorange-text">${reqs.join(', ')}</span>`;
 };
