@@ -91,7 +91,7 @@ export const SkillButtons = ({ props }: { props: SkillProps }) => {
                 variant="outline"
                 size="compact-xs"
                 rightSection={copied === 'tBox' ? <CheckIcon size={16} /> : undefined}
-                onClick={() => { copy('tBox', getBoxTemplate(props, options.version)); }}
+                onClick={() => { copy('tBox', getBoxTemplate(props)); }}
             >
                 Copy box
             </Button>
