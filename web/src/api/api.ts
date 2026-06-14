@@ -10,6 +10,8 @@ export interface CategoryMember {
     title: string;
 }
 
+const BASE_URL = "https://maplestorywiki.net/api.php";
+
 export const getCategory = async (category: string) => {
     const req: Record<string, string> = {
         action: "query",
@@ -19,7 +21,7 @@ export const getCategory = async (category: string) => {
         format: "json",
         origin: "*"
     };
-    const response = await fetch(`https://maplestorywiki.net/api.php?${new URLSearchParams(req).toString()}`);
+    const response = await fetch(`${BASE_URL}?${new URLSearchParams(req).toString()}`);
     const data = await response.json() as CategoryResponse;
     return data.query.categorymembers;
 };

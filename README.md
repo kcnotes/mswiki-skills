@@ -40,4 +40,6 @@ If you've already put your folders in another place, you can choose to specify t
 Delete the generated `out/temp` files if you would like. They're not necessary once you have your `skills.json`.
 
 ## Viewing wiki skills
-Open `index.html` in a browser and load the outputted `skills.json`.
+The website is viewable at https://kcnotes.github.io/mswiki-skills/.
+
+To modify the data within the website, you can edit the JSON files in the `web/src/data/skills` folder.

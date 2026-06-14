@@ -51,8 +51,8 @@ export const stringTokeniser = (str: string, params: string[]): Token[] => {
     let containerStack: StartContainerToken['containerType'][] = [];
 
     while (i < str.length) {
-        const c = str[i];
-        const next = str[i + 1].toLowerCase();
+        const c = str.at(i);
+        const next = str.at(i + 1)?.toLowerCase();
 
         // Handle control characters
         if (c === '#') {
@@ -74,7 +74,7 @@ export const stringTokeniser = (str: string, params: string[]): Token[] => {
                 });
                 containerStack = [];
                 i += 2; // Skip the # and the character
-            } else if (CONTAINER_CHARACTERS.includes(next)) {
+            } else if (next != null && CONTAINER_CHARACTERS.includes(next)) {
                 const containerType = next as StartContainerToken['containerType'];
                 tokens.push({ type: 'start-container', containerType });
                 containerStack.push(containerType);
@@ -91,15 +91,15 @@ export const stringTokeniser = (str: string, params: string[]): Token[] => {
         else {
             // Generic text
             // if the last token is text, pop it
-            let lastToken = tokens[tokens.length - 1];
-            if (lastToken.type === 'content') {
+            let lastToken = tokens.at(-1);
+            if (lastToken?.type === 'content') {
                 tokens.pop();
             } else {
                 lastToken = { type: 'content', content: '' };
             }
 
             // Add till next #
-            while (i < str.length && str[i] !== '#') {
+            while (i < str.length && str.at(i) !== '#') {
                 lastToken.content += str[i];
                 i++;
             }

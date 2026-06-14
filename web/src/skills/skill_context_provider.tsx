@@ -4,7 +4,7 @@ import { SkillImportContext } from "./skill_context";
 import type { SkillImportState } from "./skill_context";
 
 export const SkillImportContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [skillImport, setSkillImport] = useState<SkillImportState["skillImport"]>(null);
+    const [skillImport, setSkillImport] = useState<SkillImportState["skillImport"]>(undefined);
     return (
         <SkillImportContext.Provider value={{ skillImport, setSkillImport }}>
             {children}

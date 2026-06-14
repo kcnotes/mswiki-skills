@@ -1,11 +1,11 @@
 import { createContext } from "react";
 
 export interface ImportedSkill {
-    common: Record<string, string>;
-    info: Record<string, string>;
+    common: Record<string, string | undefined>;
+    info: Record<string, string | undefined>;
     req: Record<string, string>;
-    base: Record<string, string>;
-    strings: Record<string, string>;
+    base: Record<string, string | undefined>;
+    strings: Record<string, string | undefined>;
 };
 
 export interface SkillGroup {
@@ -17,8 +17,10 @@ export interface SkillGroup {
 export type SkillImport = Record<string, SkillGroup>;
 
 export interface SkillImportState {
-    skillImport?: SkillImport | null;
-    setSkillImport: (skillImport: SkillImport | null) => void;
+    skillImport?: SkillImport;
+    setSkillImport: (skillImport?: SkillImport) => void;
 }
 
-export const SkillImportContext = createContext<SkillImportState>(null);
+export const SkillImportContext = createContext<SkillImportState>({
+    setSkillImport: () => { /* empty */ },
+});
