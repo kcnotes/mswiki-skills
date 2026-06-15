@@ -66,9 +66,9 @@ export const getBoxTemplate = ({
     vSkill,
     description,
     formula,
-}: SkillProps) => {
+}: SkillProps, forceShowId = false) => {
     // Note: This is a naive check that will put IDs into 4th job Dual Blade skills
-    const shouldShowId = (vSkill != null) || isHexaBoost || (Number(id[id.length - 5]) > 3);
+    const shouldShowId = forceShowId || (vSkill != null) || isHexaBoost || (Number(id[id.length - 5]) > 3);
     const header = shouldShowId
         ? `{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}\n|id=${id}`
         : `<!--${Number(id).toString()}-->\n{{SkillBox`;

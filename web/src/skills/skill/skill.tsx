@@ -54,7 +54,7 @@ export const Skill = ({ skillId, skill }: { skillId: string; skill: ImportedSkil
     );
 };
 
-type CopyType = 'tTable' | 'tBox' | 'description' | 'readout' | 'formula' | null;
+type CopyType = 'tTable' | 'tBox' | 'tBoxWithId' | 'description' | 'readout' | 'formula' | null;
 export const SkillButtons = ({ props }: { props: SkillProps }) => {
     const { options } = useContext(SkillOptionsContext);
     const clipboard = useClipboard();
@@ -94,6 +94,14 @@ export const SkillButtons = ({ props }: { props: SkillProps }) => {
                 onClick={() => { copy('tBox', getBoxTemplate(props)); }}
             >
                 Copy box
+            </Button>
+            <Button
+                variant="outline"
+                size="compact-xs"
+                rightSection={copied === 'tBoxWithId' ? <CheckIcon size={16} /> : undefined}
+                onClick={() => { copy('tBoxWithId', getBoxTemplate(props, true)); }}
+            >
+                Copy box |id=
             </Button>
             <Button
                 variant="outline"
