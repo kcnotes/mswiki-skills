@@ -72,7 +72,7 @@ export const getBoxTemplate = ({
     // Note: This is a naive check that will put IDs into 4th job Dual Blade skills
     const shouldShowID = (vSkill != null) || isHexaBoost || (Number(id[id.length - 5]) > 3);
     return `<!--${Number(id).toString()}-->
-{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}${shouldShowID ? '' : '\n|id=' + id}}
+{{${isHexaBoost ? 'SkillBoxSixthJob' : 'SkillBox'}${shouldShowID ? '\n|id=' + id : ''}
 |skillName=${templateNameWithLink}
 |skillType=${isHexaBoost ? 'Passive' : type}
 |reqLv=${levelRequirement ?? ''}
@@ -118,8 +118,8 @@ export const getSkillProps = (id: string, skill: ImportedSkill, getSkill: (id: s
             ? `[[File: Skill ${iconName.replace(' Boost', '')}.png]] {{!}} [[${name}]]`
             : `[[File: Skill ${iconName}.png]] {{!}} ${name}`,
         templateNameWithLink: isHexaBoost
-            ? `[[File: Skill ${iconName.replace(' Boost', '')}.png]] {{!}} [[${name.replace(' Boost', '#6th Job Enhancement')}|${name}]]`
-            : `[[File: Skill ${iconName}.png]] {{!}} [[${name}]]`,
+            ? `[[File: Skill ${iconName.replace(' Boost', '')}.png]] [[${name.replace(' Boost', '#6th Job Enhancement')}|${name}]]`
+            : `[[File: Skill ${iconName}.png]] [[${name}]]`,
         link: isHexaBoost
             ? `https://maplestorywiki.net/w/${name.replace(' ', '_').replace(' Boost', '')}?action=edit`
             : `https://maplestorywiki.net/w/${name.replace(' ', '_')}?action=edit`,

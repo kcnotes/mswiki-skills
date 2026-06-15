@@ -34,7 +34,7 @@ export const getSkillString = (
                 return '';
         }
     }).join('');
-    return res;
+    return clean(res);
 };
 
 /**
@@ -64,10 +64,9 @@ export const parseContent = (str: string): string => {
     const res = str
         .replace(/\\r\\n/g, '<br /><br />')
         .replace(/\\n/g, '<br />');
-
-    // -{ is MediaWiki syntax for language conversion, and needs to be escaped
-    if (res.endsWith('-')) {
-        return res.slice(0, -1) + '&#45;';
-    }
     return res;
+};
+
+export const clean = (str: string): string => {
+    return str.replace(/-{/g, '&#45;{');
 };
