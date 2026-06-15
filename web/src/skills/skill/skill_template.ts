@@ -50,7 +50,6 @@ export const getTableTemplate = ({
 |levelRequirement=${levelRequirement ?? ''}
 |maxLevel=${maxLevel ?? ''}
 |combatOrders=${combatOrders ?? ''}
-|vSkill=${vSkill ?? ''}
 |bgm=${bgm ?? ''}
 |description=${description}
 |readout=${readout}
@@ -78,7 +77,6 @@ export const getBoxTemplate = ({
 |reqLv=${levelRequirement ?? ''}
 |masterLevel=${maxLevel ?? ''}
 |combatOrders=${combatOrders ?? ''}
-|vSkill=${vSkill ?? ''}
 |description=${description}
 |formula=${formula}
 }}`;
