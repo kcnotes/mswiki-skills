@@ -34,7 +34,6 @@ export const getTableTemplate = ({
     levelRequirement,
     maxLevel,
     combatOrders,
-    vSkill,
     bgm,
     description,
     readout,
