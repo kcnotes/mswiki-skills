@@ -114,11 +114,11 @@ export const getSkillProps = (id: string, skill: ImportedSkill, getSkill: (id: s
         id,
         name,
         templateName: isHexaBoost
-            ? `[[File: Skill ${iconName.replace(' Boost', '')}.png]] {{!}} [[${name}]]`
-            : `[[File: Skill ${iconName}.png]] {{!}} ${name}`,
+            ? `[[File:Skill ${iconName.replace(' Boost', '')}.png]] {{!}} [[${name}]]`
+            : `[[File:Skill ${iconName}.png]] {{!}} ${name}`,
         templateNameWithLink: isHexaBoost
-            ? `[[File: Skill ${iconName.replace(' Boost', '')}.png]] [[${name.replace(' Boost', '#6th Job Enhancement')}|${name}]]`
-            : `[[File: Skill ${iconName}.png]] [[${name}]]`,
+            ? `[[File:Skill ${iconName.replace(' Boost', '')}.png]] [[${name.replace(' Boost', '#6th Job Enhancement')}|${name}]]`
+            : `[[File:Skill ${iconName}.png]] [[${name}]]`,
         link: isHexaBoost
             ? `https://maplestorywiki.net/w/${name.replace(' ', '_').replace(' Boost', '')}?action=edit`
             : `https://maplestorywiki.net/w/${name.replace(' ', '_')}?action=edit`,
