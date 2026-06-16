@@ -100,6 +100,7 @@ export const getSkillProps = (id: string, skill: ImportedSkill, getSkill: (id: s
     const iconName = name.replaceAll("[", "(").replaceAll("]", ")");
     const parameters = {
         ...skill.base,
+        ...skill.info,
         ...skill.common,
         // Converts millisecond cooldowns to seconds
         ...{
