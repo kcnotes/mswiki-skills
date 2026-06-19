@@ -9,15 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SkillsCompareRouteImport } from './routes/skills-compare'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SkillsCompareRouteImport } from './routes/skills_/compare'
 
-const SkillsCompareRoute = SkillsCompareRouteImport.update({
-  id: '/skills-compare',
-  path: '/skills-compare',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SkillsRoute = SkillsRouteImport.update({
   id: '/skills',
   path: '/skills',
@@ -28,29 +23,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SkillsCompareRoute = SkillsCompareRouteImport.update({
+  id: '/skills_/compare',
+  path: '/skills/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/skills': typeof SkillsRoute
-  '/skills-compare': typeof SkillsCompareRoute
+  '/skills/compare': typeof SkillsCompareRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/skills': typeof SkillsRoute
-  '/skills-compare': typeof SkillsCompareRoute
+  '/skills/compare': typeof SkillsCompareRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/skills': typeof SkillsRoute
-  '/skills-compare': typeof SkillsCompareRoute
+  '/skills_/compare': typeof SkillsCompareRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/skills' | '/skills-compare'
+  fullPaths: '/' | '/skills' | '/skills/compare'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/skills' | '/skills-compare'
-  id: '__root__' | '/' | '/skills' | '/skills-compare'
+  to: '/' | '/skills' | '/skills/compare'
+  id: '__root__' | '/' | '/skills' | '/skills_/compare'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -61,13 +61,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/skills-compare': {
-      id: '/skills-compare'
-      path: '/skills-compare'
-      fullPath: '/skills-compare'
-      preLoaderRoute: typeof SkillsCompareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/skills': {
       id: '/skills'
       path: '/skills'
@@ -80,6 +73,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills_/compare': {
+      id: '/skills_/compare'
+      path: '/skills/compare'
+      fullPath: '/skills/compare'
+      preLoaderRoute: typeof SkillsCompareRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
