@@ -28,7 +28,7 @@ export function App() {
             <Flex mih={0} flex="1" gap="sm">
               <ScrollArea>
                 <Suspense fallback={<div>Loading...</div>}>
-                  <Sidebar selectGroup={selectGroup} />
+                  <Sidebar selectGroup={selectGroup} selectedGroup={selectedGroup} />
                 </Suspense>
               </ScrollArea>
               <ScrollArea flex="1">

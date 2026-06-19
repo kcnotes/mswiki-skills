@@ -57,7 +57,7 @@ export const VersionSelector = () => {
                         onClick={() => { setVersion(v as Versions); }}
                         rightSection={v === version ? <CheckIcon size={14} /> : undefined}
                     >
-                        {version}
+                        {v}
                     </Menu.Item>
                 ))}
             </Menu.Dropdown>

@@ -2,7 +2,7 @@ import { NavLink } from "@mantine/core";
 import { useContext } from "react";
 import { SkillImportContext } from "../skill_context";
 
-export const Sidebar = ({ selectGroup }: { selectGroup: (skillId: string) => void }) => {
+export const Sidebar = ({ selectGroup, selectedGroup }: { selectGroup: (skillId: string) => void, selectedGroup: string | null }) => {
     const { skillImport } = useContext(SkillImportContext);
     return (
         <>
@@ -10,7 +10,14 @@ export const Sidebar = ({ selectGroup }: { selectGroup: (skillId: string) => voi
                 const { strings, groupId } = group;
                 const label = strings.bookName ? `${strings.bookName} (${groupId})` : groupId;
                 return (
-                    <NavLink key={groupId} label={label} h="24px" onClick={() => { selectGroup(groupId); }} />
+                    <NavLink
+                        key={groupId}
+                        label={label}
+                        h="28px"
+                        onClick={() => { selectGroup(groupId); }}
+                        variant="light"
+                        active={selectedGroup === groupId}
+                    />
                 );
             })}
         </>
