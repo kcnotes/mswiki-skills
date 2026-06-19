@@ -13,11 +13,13 @@
     "@mantine/core": "^9.1.1",
     "@mantine/hooks": "^9.1.1",
     "@phosphor-icons/react": "^2.1.10",
+    "@tanstack/react-router": "^1.170.16",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@tanstack/router-plugin": "^1.168.18",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
