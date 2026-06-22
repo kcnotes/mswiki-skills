@@ -5,20 +5,26 @@ import type { ImportedSkill } from "../skill_context";
 import { ErrorBoundary } from "../../base/error_boundary";
 import { getBoxTemplate, getGroupId, getSkillProps, getTableTemplate, type SkillProps } from "./skill_template";
 import { useClipboard } from '@mantine/hooks';
-import { CheckIcon } from "@phosphor-icons/react";
+import { AsteriskIcon, CheckIcon } from "@phosphor-icons/react";
 import { SkillOptionsContext } from "../skill_options_context";
+import { SkillDiff } from "./skill_diff";
 
-export const Skill = ({ skillId, skill }: { skillId: string; skill: ImportedSkill }) => {
+export const Skill = ({ skillId, skill, compareSkill }: { skillId: string; skill: ImportedSkill; compareSkill?: ImportedSkill }) => {
     const { skillImport } = useContext(SkillImportContext);
     const { options } = useContext(SkillOptionsContext);
     const getSkill = useCallback((id: string) => {
         return skillImport?.[getGroupId(id)]?.skills[id];
     }, [skillImport]);
     const props = getSkillProps(skillId, skill, getSkill, options);
+    const oldProps = compareSkill != null ? getSkillProps(skillId, compareSkill, getSkill, options) : undefined;
+    const hasChanges = oldProps != null && (Object.keys({ ...props, ...oldProps }) as (keyof SkillProps)[]).some(
+        (k) => String(props[k] ?? '') !== String(oldProps[k] ?? '')
+    );
     return (
         <>
             <Accordion.Control>
                 <Flex align="center" gap="sm">
+                    {hasChanges && <AsteriskIcon size={14} color="var(--mantine-color-yellow-6)" weight="bold" />}
                     {skillId}: {skill.strings.name}{skill.base.invisible ? ' (invisible)' : ''}
                 </Flex>
             </Accordion.Control>
@@ -26,27 +32,31 @@ export const Skill = ({ skillId, skill }: { skillId: string; skill: ImportedSkil
                 <ErrorBoundary fallback={<Alert>An error occurred while loading this skill. Contact noreplyz.</Alert>}>
                     <Stack gap="xs">
                         <SkillButtons props={props} />
-                        <Table>
-                            <Table.Thead>
-                                <Table.Tr>
-                                    <Table.Th>Property</Table.Th>
-                                    <Table.Th>Value</Table.Th>
-                                </Table.Tr>
-                            </Table.Thead>
-                            <Table.Tbody>
-                                {Object.entries(props).map(([key, value]) => {
-                                    if (!value) {
-                                        return null;
-                                    }
-                                    return (
-                                        <Table.Tr key={key}>
-                                            <Table.Td>{key}</Table.Td>
-                                            <Table.Td>{value}</Table.Td>
-                                        </Table.Tr>
-                                    );
-                                })}
-                            </Table.Tbody>
-                        </Table>
+                        {oldProps != null ? (
+                            <SkillDiff newProps={props} oldProps={oldProps} />
+                        ) : (
+                            <Table>
+                                <Table.Thead>
+                                    <Table.Tr>
+                                        <Table.Th>Property</Table.Th>
+                                        <Table.Th>Value</Table.Th>
+                                    </Table.Tr>
+                                </Table.Thead>
+                                <Table.Tbody>
+                                    {Object.entries(props).map(([key, value]) => {
+                                        if (!value) {
+                                            return null;
+                                        }
+                                        return (
+                                            <Table.Tr key={key}>
+                                                <Table.Td>{key}</Table.Td>
+                                                <Table.Td>{value}</Table.Td>
+                                            </Table.Tr>
+                                        );
+                                    })}
+                                </Table.Tbody>
+                            </Table>
+                        )}
                     </Stack>
                 </ErrorBoundary>
             </Accordion.Panel>

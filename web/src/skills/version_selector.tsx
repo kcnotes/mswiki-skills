@@ -1,15 +1,18 @@
 import { Button, FileButton, Menu } from "@mantine/core";
 import { versions, defaultVersion } from "../data/skills/versions.json";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { SkillImportContext, type SkillImport } from "./skill_context";
+import { useCallback, useEffect, useState } from "react";
+import type { SkillImport } from "./skill_context";
 import { CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
-import { SkillOptionsContext } from "./skill_options_context";
 
 export type Versions = keyof typeof versions | null;
 
-export const VersionSelector = () => {
-    const { setSkillImport } = useContext(SkillImportContext);
-    const { setOptions } = useContext(SkillOptionsContext);
+interface VersionSelectorProps {
+    onImportLoad: (skillImport: SkillImport, tabberVersion: string) => void;
+    onFileLoad?: (skillImport: SkillImport) => void;
+    label?: string;
+}
+
+export const VersionSelector = ({ onImportLoad, onFileLoad, label = "Select version" }: VersionSelectorProps) => {
     const [version, setVersion] = useState(defaultVersion as Versions);
 
     const getImport = useCallback(async (version: Versions) => {
@@ -18,20 +21,19 @@ export const VersionSelector = () => {
                 return;
             }
             const importResult = (await import(`../data/skills/${version}.json`)) as { default: SkillImport };
-            setSkillImport(importResult.default);
-            setOptions((prev) => ({
-                ...prev,
-                version: versions[version].tabber
-            }));
+            onImportLoad(importResult.default, versions[version].tabber);
         } catch (error) {
             console.error(error);
         }
-    }, [setSkillImport, setOptions]);
+    }, [onImportLoad]);
 
     const setFile = async (file: File | null) => {
         try {
             const contents = await file?.text();
-            setSkillImport(contents ? JSON.parse(contents) as SkillImport : undefined);
+            if (contents) {
+                const skillImport = JSON.parse(contents) as SkillImport;
+                onFileLoad?.(skillImport);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -44,7 +46,7 @@ export const VersionSelector = () => {
     return (
         <Menu shadow="md" position="bottom-start">
             <Menu.Target>
-                <Button variant="outline" size="xs" rightSection={<CaretDownIcon size={14} />}>Select version</Button>
+                <Button variant="outline" size="xs" rightSection={<CaretDownIcon size={14} />}>{label}</Button>
             </Menu.Target>
             <Menu.Dropdown>
                 <FileButton onChange={(file) => void setFile(file)}>
@@ -61,6 +63,6 @@ export const VersionSelector = () => {
                     </Menu.Item>
                 ))}
             </Menu.Dropdown>
-        </Menu >
+        </Menu>
     );
 };
