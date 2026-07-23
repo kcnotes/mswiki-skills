@@ -1,6 +1,9 @@
 {
-    "defaultVersion": "gms-v269",
+    "defaultVersion": "gms-v270",
     "versions": {
+        "gms-v270": {
+            "tabber": "GMS v270"
+        },
         "gms-v269": {
             "tabber": "GMS v269"
         },
